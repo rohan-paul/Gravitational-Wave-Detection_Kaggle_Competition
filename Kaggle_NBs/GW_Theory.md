@@ -38,3 +38,32 @@ A **Time domain analysis** is an analysis of physical signals, mathematical func
 Moreover, a time-domain graph can show how a signal changes with time.
 
 In **Frequency domain** your model/system is analyzed according to it's response for different frequencies. How much of the signal lie in different frequency range. Theoretically signals are composed of many sinusoidal signals with different frequencies (Fourier series), like triangle signal, its actually composed of infinite sinusoidal signal (fundamental and odd harmonics frequencies).
+
+We can move from time domain to frequency domain with the help of Fourier transform.
+
+---
+
+### The problem of glitches in LIGO data and how Data Science can help
+
+I quote from [this](https://arxiv.org/pdf/1911.11831.pdf) paper named "Efficient Gravitational-wave Glitch Identification from Environmental Data Through
+Machine Learning"
+
+![Imgur](https://imgur.com/jyZ6ydh.png)
+
+It goes on to say, Modern interferometric gravitational-wave (GW) detectors are highly complex and sensitive instruments. Each detector is sensitive not only to gravitational radiation, but also to noise from sources including the physical environment, seismic activity, and complications in the detector itself. The output data of these
+detectors is therefore also highly complex. In addition to
+the desired signal, the GW data stream contains sharp
+lines in its noise spectrum and non-Gaussian transients,
+or “glitches,” that are not astrophysical in origin.
+Instrumental artifacts in the GW data stream can be
+mistaken for short-duration, unmodeled GW events, and
+noisy data can also decrease the confidence in compact
+binary detections, sometimes by orders of magnitude
+
+---
+
+## References and Further Reading
+
+https://www.nature.com/articles/d41586-018-04157-6
+
+https://dcc.ligo.org/public/0122/P1500260/015/errata_authors_Martynov_PRD_AF.pdf - Has good Noise sensitivity data
