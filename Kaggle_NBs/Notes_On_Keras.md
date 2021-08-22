@@ -61,9 +61,32 @@ it comes to building models using Keras.
 
 ---
 
-## Why I would need a Data Generator Function for Keras Sequential Model building
+## Why I would need a Custom Data Generator Function for Keras Sequential Model building
 
 The key reason is to be able to handle large data with batching, so the RAM/CPU/GPU does not need to handle the full data at once, which will anyway not be possible for this 72GB dataset.
 
+So basically, since our code will in most cases be multicore-friendly, so we focus on doing more complex operations (e.g. computations from source files) without worrying about data generation becoming a bottleneck in the training process.
 
-**DatGgenerator(Sequence)** => Now, let's go through the details of how to set the Python class DataGenerator, which will be used for real-time data feeding to your Keras model. We make this inherit the properties of `keras.utils.Sequence` so that we can leverage nice functionalities such as multiprocessing.
+
+**DataGenerator(Sequence)** => Now, let's go through the details of how to set the Python class DataGenerator, which will be used for real-time data feeding to your Keras model. We make `DataGenerator` inherit the properties of `keras.utils.Sequence` so that we can leverage nice functionalities such as multiprocessing.
+
+While we have built-in Data Generator like [ImageDataGenerator](https://www.tensorflow.org/api_docs/python/tf/keras/preprocessing/image/ImageDataGenerator), we still need a plethora of custom Generator function. Because, Model training is not limited to a single type of input and target. There are times when a model is fed with multiple types of inputs at once. For example, say in a multi-modal classification problem which needs to process text and image data simultaneously. Here, obviously we cannot use ImageDataGenerator. Hence, we need a custom data generator.
+
+According to [Keras Documentation](https://www.tensorflow.org/api_docs/python/tf/keras/utils/Sequence) - Every Sequence must implement the `__getitem__` and the `__len__` methods. If you want to modify your dataset between epochs you may implement on_epoch_end. The method __getitem__ should return a complete batch.
+
+ ### A note on `yield` function with respect to the custom data generator here for Sequence API of Keras
+
+Here I am using the Sequence API, which works a bit different than plain generators. In a generator function, you would use the `yield` keyword to perform iteration inside a while True: loop, so each time Keras calls the generator, it gets a batch of data and it automatically wraps around the end of the data.
+
+But in a Sequence-API, there is an index parameter to the `__getitem__` function, so no iteration or `yield` is required, this is performed by Keras for you. This is made so the sequence can run in parallel using multiprocessing, which is not possible with old generator functions.
+
+---
+
+### Difference between fit() and fit_generator() in Keras
+
+In Keras, using fit() and predict() is fine for smaller datasets which can be loaded into memory. But in practice, for most practical-use cases, almost all datasets are large and cannot be loaded into memory at once. The solution is to use fit_generator() and predict_generator() with custom data generator functions which can load data to memory during training or predicting.
+
+In keras, fit() is much similar to sklearn's fit method, where you pass array of features as x values and target as y values. You pass your whole dataset at once in fit method. Also, use it if you can load whole data into your memory (small dataset).
+
+In fit_generator(), you don't pass the x and y directly, instead they come from a generator. As it is written in keras documentation, generator is used when you want to avoid duplicate data when using multiprocessing. This is for practical purpose, when you have large dataset.
+
