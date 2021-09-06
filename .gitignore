@@ -2,6 +2,11 @@
 
 # dependencies
 /node_modules
+
+/YouTube_Experiments_Scripts
+/YouTube_Experiments_Scripts/*
+*/YouTube_Experiments_Scripts/*
+
 /Others_Code_gitignore
 /Others_Code_gitignore/*
 */Others_Code_gitignore/*
@@ -53,13 +58,6 @@ LARGE_Datasets
 */*.txt
 **/*.txt
 /.txt
-
-*.png
-/*.png
-*/*.png
-**/*.png
-/.png
-
 
 *.csv
 /*.csv
